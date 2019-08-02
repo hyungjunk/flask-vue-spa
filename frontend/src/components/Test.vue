@@ -8,89 +8,98 @@
         <ul>
           <li>
             <div class="oribi-chat">
-                <div class="profile">
-                  <!--Img-->
-                </div>
-                <div class="chat-wrapper">
-                  <div>
-                    <span class="name">Oribi</span> <br>
-                    <div class="mention-wrapper">
-                      <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="time_td">
-                  <div class="check">
-                    <p></p>
+              <div class="profile">
+                <!--Img-->
+              </div>
+              <div class="chat-wrapper">
+                <div>
+                  <span class="name">Oribi</span> <br>
+                  <div class="mention-wrapper">
+                    <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
                   </div>
                 </div>
               </div>
+              <div class="time_td">
+                <div class="check">
+                  <p></p>
+                </div>
+              </div>
+            </div>
           </li>
           <li>
             <div class="user_chat">
-                <div class="profile">
-                  <!--Img-->
-                </div>
-                <div class="chat-wrapper">
-                  <div>
-                    <span class="name">Oribi</span> <br>
-                    <div class="mention-wrapper">
-                      <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
-                    </div>
-                  </div>
-                </div>
+              <div class="profile">
+                <!--Img-->
+              </div>
+              <div class="chat-wrapper">
                 <div>
-                  <div class="check">
-                    <p></p>
+                  <span class="name">Oribi</span> <br>
+                  <div class="mention-wrapper">
+                    <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
                   </div>
                 </div>
               </div>
+              <div>
+                <div class="check">
+                  <p></p>
+                </div>
+              </div>
+            </div>
           </li>
           <li>
             <div class="oribi-chat">
-                <div class="profile">
-                  <!--Img-->
-                </div>
-                <div class="chat-wrapper">
-                  <div>
-                    <span class="name">Oribi</span> <br>
-                    <div class="mention-wrapper">
-                      <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
-                    </div>
-                  </div>
-                </div>
+              <div class="profile">
+                <!--Img-->
+              </div>
+              <div class="chat-wrapper">
                 <div>
-                  <div class="check">
-                    <p></p>
+                  <span class="name">Oribi</span> <br>
+                  <div class="mention-wrapper">
+                    <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
                   </div>
                 </div>
               </div>
+              <div>
+                <div class="check">
+                  <p></p>
+                </div>
+              </div>
+            </div>
           </li>
         </ul>
         <div class="chat-box">
-          <form action="/send_chat" method="POST">
-            <input name='user-input' type="text" placeholder="type here" v-bind:value="msg">
-            <input v-on:click="send_chat" name='chat-enter' type="submit" value="확인">
-          </form>
+          <textarea name='user-input' type="text" placeholder="type here" :value="msg"></textarea>
+          <input @click="send_chat" name='chat-enter' type="submit" value="확인">
         </div>
       </div>
     </div>
   </div>
-  
-  
+
+
 </template>
 
 <script>
+  
+  import axios from 'axios'
+  
   export default {
     name: 'HelloWorld',
-    data () {
+    data() {
       return {
         msg: 'Welcome to Your Vue.js App'
       }
     },
     methods: {
       send_chat () {
-        alert('your message is ')
+        const path = `http://localhost:5000/hello`;
+        axios.get(path)
+          .then(response => {
+            this.msg = response.data.message;
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
     }
   }
@@ -107,7 +116,7 @@
   }
   
   .hello {
-    width:300px;
+    width: 300px;
     padding-left: 50px;
   }
   
@@ -142,24 +151,34 @@
   
   .chat-box {
     border: 1px solid darkgrey;
-    height: 30px;
+    height: 50px;
     display: flex;
     flex-direction: row;
     font-size: 20px;
+    position: relative;
   }
   
-  .chat-box input[name='user-input'] {
+  .chat-box textarea[name='user-input'] {
     border: none;
-    height: 100%;
+    resize: none;
+    width: 80%;
+    height: 100%
   }
   
-  .chat-box input:focus {
+  .chat-box textarea:focus {
     outline: none;
   }
   
   .chat-box input[name='chat-enter'] {
+    position: relative;
+    vertical-align: center;
     font-size: 20px;
-    width:15%;
+    width: 15%;
+  }
+  
+  form[name='user-chatting'] {
+    width: 100%;
+    position: relative;
   }
   
   .chat_list_wrap .header {

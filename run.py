@@ -15,9 +15,20 @@ def random_number():
     }
     return jsonify(response)
 
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
     if app.debug:
         return requests.get('http://localhost:8080/{}'.format(path)).text
+    return render_template("index.html")
+
+
+@app.route('/hello')
+def hello():
+    if app.debug:
+        response = {
+            'message' : 'hello'
+        }
+        return response
     return render_template("index.html")
