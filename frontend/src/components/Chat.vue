@@ -1,116 +1,92 @@
 <template>
   <div class="hello">
-    <div class="chat_list_wrap">
-      <div class="header">
-        Helper
-      </div>
-      <div class="list">
-        <ul>
-          <li>
-            <div class="oribi-chat">
-              <div class="profile">
-                <!--Img-->
-              </div>
-              <div class="chat-wrapper">
-                <div>
-                  <span class="name">Oribi</span> <br>
-                  <div class="mention-wrapper">
-                    <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
+    <b-button v-b-toggle.collapse-1 variant="primary">Need help?</b-button>
+    <b-collapse id="collapse-1" class="mt-2">
+      <div class="chat_list_wrap">
+        <div class="header">
+          Helper
+        </div>
+        <div class="list">
+          <ul>
+            <li>
+              <div class="oribi-chat">
+                <div class="profile">
+                  <!--Img-->
+                </div>
+                <div class="chat-wrapper">
+                  <div>
+                    <span class="name">Oribi</span> <br>
+                    <div class="mention-wrapper">
+                      <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="time_td">
+                  <div class="check">
+                    <p></p>
                   </div>
                 </div>
               </div>
-              <div class="time_td">
-                <div class="check">
-                  <p></p>
+            </li>
+            <li>
+              <div class="user_chat">
+                <div class="profile">
+                  <!--Img-->
                 </div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="user_chat">
-              <div class="profile">
-                <!--Img-->
-              </div>
-              <div class="chat-wrapper">
+                <div class="chat-wrapper">
+                  <div>
+                    <span class="name">Oribi</span> <br>
+                    <div class="mention-wrapper">
+                      <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
+                    </div>
+                  </div>
+                </div>
                 <div>
-                  <span class="name">Oribi</span> <br>
-                  <div class="mention-wrapper">
-                    <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
+                  <div class="check">
+                    <p></p>
                   </div>
                 </div>
               </div>
-              <div>
-                <div class="check">
-                  <p></p>
+            </li>
+            <li>
+              <div class="oribi-chat">
+                <div class="profile">
+                  <!--Img-->
                 </div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="oribi-chat">
-              <div class="profile">
-                <!--Img-->
-              </div>
-              <div class="chat-wrapper">
+                <div class="chat-wrapper">
+                  <div>
+                    <span class="name">Oribi</span> <br>
+                    <div class="mention-wrapper">
+                      <span class="mention"> 뭔가 어색한데 어디가 이상한건가요? </span>
+                    </div>
+                  </div>
+                </div>
                 <div>
-                  <span class="name">Oribi</span> <br>
-                  <div class="mention-wrapper">
-                    <span class="mention"> 뭔가 어색한데 어디가 이상한건가요 </span>
+                  <div class="check">
+                    <p></p>
                   </div>
                 </div>
               </div>
-              <div>
-                <div class="check">
-                  <p></p>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <div class="chat-box">
-          <textarea name='user-input' type="text" placeholder="type here" :value="msg"></textarea>
-          <input @click="send_chat" name='chat-enter' type="submit" value="확인">
+            </li>
+          </ul>
+          <div class="chat-box">
+            <textarea name='user-input' type="text" placeholder="type here" :value="msg"></textarea>
+            <input @click="send_chat" name='chat-enter' type="submit" value="확인">
+          </div>
         </div>
       </div>
-    </div>
-    <div @click="openForm">click here to expand</div>
-    <div class="form-popup" id="myForm">
-      <form action="/action_page.php" class="form-container">
-        <h1>Login</h1>
-        
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Enter Email" name="email" required>
-        
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-        
-        <button type="submit" class="btn">Login</button>
-        <button type="button" class="btn cancel" @click="closeForm">Close</button>
-      </form>
-    </div>
-    <b-button size="sm" @click="toggle">
-      {{ show ? 'Hide' : 'Show' }} Alert
-    </b-button>
-    <b-alert
-      v-model="show"
-      class="mt-3"
-      dismissible
-      @dismissed="dismissed"
-    >
-      Hello {{ name }}!
-    </b-alert>
+    </b-collapse>
   </div>
 
 
 </template>
 
 <script>
-  
+
   import axios from 'axios'
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap-vue/dist/bootstrap-vue.css'
-  
-  
+
   export default {
     name: 'HelloWorld',
     data() {
@@ -127,22 +103,15 @@
     },
     methods: {
       send_chat() {
-        const path = `http://localhost:5000/hello`;
+        const path = `http://localhost:5000/hello`
         axios.get(path)
-          .then(response => {
-            this.msg = response.data.message;
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      },
-      openForm() {
-        $("#myForm").style.display = "block";
-      },
-      
-      closeForm() {
-        $("#myForm").style.display = "none";
+            .then(response => {
+              this.msg = response.data.message;
+              console.log(response)
+            })
+            .catch(error => {
+              console.log(error)
+            })
       },
       toggle() {
         console.log('Toggle button clicked')
@@ -159,10 +128,6 @@
   * {
     margin: 0;
     padding: 0;
-  }
-  
-  body {
-    font-size: 11px;
   }
   
   .hello {
@@ -191,7 +156,8 @@
   .mention-wrapper {
     display: inline-block;
     background-color: white;
-    border-radius: 30px;
+    border-radius: 15px;
+    font-size: 0.8rem;
   }
   
   .mention {
@@ -212,7 +178,8 @@
     border: none;
     resize: none;
     width: 80%;
-    height: 100%
+    height: 100%;
+    font-size: 1rem;
   }
   
   .chat-box textarea:focus {
@@ -222,8 +189,8 @@
   .chat-box input[name='chat-enter'] {
     position: relative;
     vertical-align: center;
-    font-size: 20px;
-    width: 15%;
+    width: 20%;
+    font-size: 1rem;
   }
   
   form[name='user-chatting'] {

@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 from flask import Flask, render_template, jsonify
@@ -48,19 +49,22 @@ def is_npm_running():
     return running
 
 
-if __name__ == "__main__":
-    app.config['DEBUG'] = True
-    try:
-        print('debug?')
-        if app.config['DEBUG']:
-            if not is_npm_running():
-                print('running')
-                subprocess.Popen(
-                    (
-                            "cd frontend && npm run dev"
-                    ),
-                    shell=True
-                )
-        app.run(debug=True)
-    finally:
-        print('down')
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# if __name__ == "__main__":
+#     app.config['DEBUG'] = True
+#     try:
+#         print('debug?')
+#         if app.config['DEBUG']:
+#             # if not is_npm_running():
+#                 # print('running')
+#                 # subprocess.Popen(
+#                 #     (
+#                 #             "cd frontend && npm run dev"
+#                 #     ),
+#                 #     shell=True
+#                 # )
+#             app.run(debug=True)
+#     finally:
+#         print('down')
