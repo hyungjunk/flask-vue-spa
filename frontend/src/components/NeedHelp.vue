@@ -1,65 +1,67 @@
 <template>
-  <div class="wrapper">
-    <b-button v-b-toggle.collapse-1 variant="primary">Need help?</b-button>
-    <b-collapse id="collapse-1" class="mt-2">
-      <b-list-group class="help-group">
-        <b-list-group-item v-b-toggle.collapse-2 class="help-item">
-          1. 블럭 당했어요
-          <b-collapse id="collapse-2" class="mt-2" >
-            <label for="imin">imin</label> <input name="imin" type="text" placeholder="imin"> <br>
-            <label for="uname">name</label> <input name="uname" type="text" place-holder="이름"> <br>
-            <label for="ustory">story</label> <input name="ustory" type="text" place-holder="상황설명"> <br>
-            <button name="innocent-submit" @click="test"> send it </button>
-            <input name="dt" type="hidden">
-          </b-collapse>
-        </b-list-group-item>
-        <b-list-group-item class="help-item">2. 모의지원이 뭔가요?</b-list-group-item>
-        <b-list-group-item class="help-item">3. 어떻게 참여하나요?</b-list-group-item>
-      </b-list-group>
-    </b-collapse>
+  <div id="app">
+    <div class="container">
+<!--      <img class="start-chat" src="../assets/chat.png" alt="none" @click="show=!show">-->
+      <div id="jb" class="jb" @click="roateThis"></div>
+    <transition name="fade">
+      <p v-if="show">hello</p>
+    </transition>
+    </div>
   </div>
 </template>
 
 <script>
-
-  import axios from 'axios'
-  import 'bootstrap/dist/css/bootstrap.css'
-  import 'bootstrap-vue/dist/bootstrap-vue.css'
-
   export default {
     data() {
-      let msg = null;
+      return {
+        show : false
+      }
     },
     methods: {
-      test() {
-        const path = `http://localhost:5000/api/random`;
-        axios.get(path)
-            .then(resp => {
-              console.log(resp)
-            })
-            .catch(error => {
-              console.log(error)
-            })
+      roateThis() {
+        document.getElementById('jb').style.transform = 'rotate(720deg)';
       }
     }
   }
 </script>
 
-<style lang="less" scoped>
-  * {
-    margin: 0;
-    padding: 0;
+<style>
+  
+  .jb {
+    width: 100px;
+    height: 100px;
+    margin: 60px auto;
+    background-color: green;
+    transform: rotate(0);
+    transition: all ease 1s;
   }
-  .wrapper {
-    padding-left: 20px;
+  /*.jb:active {*/
+  /*  transform: rotate(270deg);*/
+  /*}*/
+  
+  /*.spinning {*/
+  /*  width: 100px;*/
+  /*  height: 100px;*/
+  /*  margin: 60px auto;*/
+  /*  background-color: orange;*/
+  /*  transition: all ease 1s;*/
+  /*}*/
+  
+  /*.spinning:hover {*/
+  /*  transform: rotate(270deg);*/
+  /*}*/
+  
+  /*.jb:hover {*/
+  /*  transform: rotate(270deg);*/
+  /*}*/
+  
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
   }
   
-  .help-group .help-item {
-    width: 30%;
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+  {
+    opacity: 0;
   }
-  
-  .list-item {
-  
-  }
-  
+
 </style>
