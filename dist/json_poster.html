@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>JSON POSTER</title>
+  <script src=//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/handsontable.full.js') }}"></script>
+  <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='css/handsontable.full.min.css') }}">
+  <style>
+    .empty-cell {
+      font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+      color: #999999;
+    }
+    
+  </style>
+</head>
+<body>
+<div class="container main">
+    <div>
+      base url: <input id="base-url" type="text" style="width:30%">
+      key_to_iterate: <input id="iterate-row" type="text" style="width:30%">
+    </div>
+    <br>
+    <div id="hot" class="my_editable">
+    
+    </div>
+  </div>
+</body>
+<script>
+    window.addEventListener('load', function (e) {
+      function create_button(text, callback) {
+        var i = document.createElement("input");
+        i.type = "button";
+        i.value = text;
+        i.addEventListener('click', callback);
+        return i;
+      }
+      function firstRowRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.background = '#F1F1F1';
+        td.className = 'empty-cell';
+        td.placeholder = 'Key(headers)';
+      }
+      function secondRowRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.className = 'empty-cell-opacity';
+        // td.style.background = 'rgba(241, 241, 241, 0.2)';
+        td.style.color = 'rgba(150, 150, 150)';
+        td.textContent = `<Select Data type>`;
+      }
+      var hotElement = document.querySelector('#hot');
+      
+      var hotSettings = {
+        data: ['hello', 'world']
+        stretchH: 'all',
+        width: 880,
+        minRows: 5,
+        startRows: 1,
+        startCols: 3,
+        autoWrapRow: true,
+        fillHandle: {
+          autoInsertRow: true
+        },
+        placeholderCellClassName: 'empty-cell',
+        maxHeight: 700,
+        rowHeaders: false,
+        colHeaders: false,
+        minSpareRows: 0,
+        dropdownMenu: true,
+        cells: function (row, col) {
+          let cellProperties = {};
+          if (row === 0) {
+            cellProperties.renderer = firstRowRenderer;
+          }
+          if (row === 1) {
+            let cellMeta = {};
+            cellMeta.type = 'dropdown';
+            cellMeta.source = ['String', 'Number', 'Array'];
+            cellMeta.renderer = secondRowRenderer;
+            return cellMeta
+          }
+          return cellProperties;
+        }
+      };
+      hotElement.append(
+        create_button(
+            "추가",
+            function() {
+              hot.alter("insert_row", 10);
+            }
+        )
+      );
+      hotElement.append(
+          create_button(
+            "저장",
+            function () {
+              $.ajax({
+                url: window.location.href,
+                method: "POST",
+                data: {
+                  data: JSON.stringify({
+                    url: document.getElementById('base-url').value,
+                    key_col: document.getElementById('iterate-row').value,
+                    data: hot.getData()
+                  })
+                },
+                dataType: "json",
+                success: function (e) {
+                  hot.render();
+                  alert("저장되었습니다.");
+                }
+              });
+            }
+          )
+      );
+      var hot = new Handsontable(hotElement, hotSettings);
+
+    });
+
+  </script>
+
+</html>

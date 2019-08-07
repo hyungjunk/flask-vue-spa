@@ -6,14 +6,16 @@ const routerOptions = [
   { path: '*', component: 'NotFound' },
   { path: '/help', component: 'NeedHelp' },
   { path: '/home', component: 'Home' },
-]
+];
+
 const routes = routerOptions.map(route => {
   return {
     ...route,
     component: () => import(`@/components/${route.component}.vue`)
   }
-})
-Vue.use(Router)
+});
+
+Vue.use(Router);
 export default new Router({
   routes,
   mode: 'history'
